@@ -9,3 +9,4 @@ print(df.head()) #if you run the file and this prints the first five rows, it's 
 #if that doesn't work, type in:
 #pip3 install pandas
 #pip3 install matplotlib
+#run python3 test.py in terminal
