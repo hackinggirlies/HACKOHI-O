@@ -1,4 +1,10 @@
 import pandas as pd
+import requests
+from llamaapi import LlamaAPI
+import json
+api_url = "https://llama-api.com"
+api_token = "LA-bd5a523be4434864be0371ee34e190a3e5d4af335cc84fd28558ef22cc29dac0"  # Replace with your actual token
+llama = LlamaAPI(api_token)
 df = pd.read_csv("CORE_HackOhio_subset_cleaned_downsampled 1.csv")
 print(df.head()) 
 #DATETIME_DTM	Datetime, date and time when observation was recorded
@@ -17,3 +23,21 @@ qualifier = df['QUALIFIER_TXT']
 #examples: Assistance requested, Personal voltage detector
 comments = df['PNT_ATRISKNOTES_TX']
 followups = df['PNT_ATRISKFOLWUPNTS_TX']
+
+def get_conversation_history(username):
+    headers = {"Authorization": f"Bearer {api_token}"}
+    #response = requests.get(f"{api_url}/conversations/{username}", headers=headers)
+    response = requests.post(f"{api_url}/chat/completions", headers=headers)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print(f"Error: {response.status_code}")
+        return None
+
+def start_chat():
+    username = "user65f7c6e8053d4e3a"
+    conversation_history = get_conversation_history(username)
+    print(conversation_history)
+
+if __name__ == "__main__":
+    start_chat()
